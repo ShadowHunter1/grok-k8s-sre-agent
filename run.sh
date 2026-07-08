@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ~/grok-k8s-sre/run.sh
+# ~/grok-k8s-sre-agent/run.sh
 # Ép Grok Build luôn chạy đúng thư mục, đúng kubeconfig read-only, đúng PATH guard.
 set -euo pipefail
 

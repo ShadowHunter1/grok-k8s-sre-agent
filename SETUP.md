@@ -7,8 +7,8 @@ và nơi bạn sẽ chạy Grok Build).
 
 ```bash
 cd ~
-unzip grok-k8s-sre.zip
-cd grok-k8s-sre
+unzip grok-k8s-sre-agent.zip
+cd grok-k8s-sre-agent
 ```
 
 ## Bước 1 — Cài Grok Build CLI (nếu chưa có)
@@ -63,7 +63,7 @@ chmod 600 .kube/readonly-config
 ## Bước 5 — Thêm alias vào shell
 
 ```bash
-echo "alias grok-sre='$HOME/grok-k8s-sre/run.sh'" >> ~/.bashrc   # hoặc ~/.zshrc
+echo "alias grok-sre='$HOME/grok-k8s-sre-agent/run.sh'" >> ~/.bashrc   # hoặc ~/.zshrc
 source ~/.bashrc
 ```
 
