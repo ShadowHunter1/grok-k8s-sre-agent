@@ -3,7 +3,7 @@
 # Ép Grok Build luôn chạy đúng thư mục, đúng kubeconfig read-only, đúng PATH guard.
 set -euo pipefail
 
-GROK_HOME="$HOME/grok-k8s-sre"
+GROK_HOME="$HOME/grok-k8s-sre-agent"
 export KUBECONFIG="$GROK_HOME/.kube/readonly-config"
 
 # PATH guard: bin/kubectl (chặn verb ghi + streaming) phải được ưu tiên trước kubectl thật

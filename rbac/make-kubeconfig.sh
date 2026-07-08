@@ -8,7 +8,7 @@ set -euo pipefail
 K8S_API_ENDPOINT="${K8S_API_ENDPOINT:-https://<K8S_API_ENDPOINT>:6443}"
 CA_CERT_PATH="${CA_CERT_PATH:-/etc/kubernetes/pki/ca.crt}"   # RKE2: /etc/rancher/rke2/rke2.yaml chứa CA, hoặc /var/lib/rancher/rke2/server/tls/server-ca.crt
 TOKEN_DURATION="${TOKEN_DURATION:-8760h}"                     # 1 năm, nhớ set nhắc rotate
-OUT_DIR="${OUT_DIR:-$HOME/grok-k8s-sre/.kube}"
+OUT_DIR="${OUT_DIR:-$HOME/grok-k8s-sre-agent/.kube}"
 OUT_FILE="$OUT_DIR/readonly-config"
 # ================================================
 

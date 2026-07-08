@@ -42,7 +42,7 @@ kubectl get clusterrolebinding grok-readonly-sre
 Sửa biến môi trường cho đúng cluster của bạn rồi chạy:
 
 ```bash
-export K8S_API_ENDPOINT="https://<địa-chỉ-API-server-của-bạn>:6443"
+export K8S_API_ENDPOINT="https://172.16.48.5:6443"
 export CA_CERT_PATH="/etc/rancher/rke2/server-ca.crt"   # RKE2: đường dẫn CA thật trên server
 export TOKEN_DURATION="8760h"                            # 1 năm, tự chọn theo policy
 
