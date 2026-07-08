@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+# ~/grok-k8s-sre/bin/kubectl
+# Lớp phòng thủ PHỤ (defense-in-depth). Lớp chính vẫn là RBAC ở API server.
+set -euo pipefail
+
+REAL_KUBECTL="$(command -v -p kubectl || echo /usr/local/bin/kubectl)"
+
+BLOCKED_VERBS="apply|create|delete|patch|edit|replace|scale|cordon|uncordon|drain|exec|cp|annotate|rollout|label|taint|attach|debug|port-forward|proxy|autoscale|set"
+
+# Tìm verb thật: bỏ qua mọi flag đứng trước (vd: -n ns get pods, --context x get pods)
+VERB=""
+skip_next=false
+for arg in "$@"; do
+  if $skip_next; then
+    skip_next=false
+    continue
+  fi
+  case "$arg" in
+    -*)
+      # flag dạng "--namespace value" (không có =) sẽ nuốt luôn giá trị kế tiếp
+      [[ "$arg" != *=* ]] && skip_next=true
+      continue
+      ;;
+    *)
+      VERB="$arg"
+      break
+      ;;
+  esac
+done
+
+if [[ "$VERB" =~ ^($BLOCKED_VERBS)$ ]]; then
+  echo "🚫 BLOCKED: write/exec verb '$VERB' is disabled for grok-sre." >&2
+  exit 1
+fi
+
+# Chặn streaming: logs -f/--follow và get -w/--watch (risk: treo session, nuốt token vô hạn)
+if [[ "$VERB" == "logs" ]]; then
+  for arg in "$@"; do
+    if [[ "$arg" == "-f" || "$arg" == "--follow" ]]; then
+      echo "🚫 BLOCKED: 'kubectl logs --follow' is disabled (streaming risk)." >&2
+      exit 1
+    fi
+  done
+fi
+
+if [[ "$VERB" == "get" ]]; then
+  for arg in "$@"; do
+    if [[ "$arg" == "-w" || "$arg" == "--watch" ]]; then
+      echo "🚫 BLOCKED: '--watch' is disabled (streaming risk)." >&2
+      exit 1
+    fi
+  done
+fi
+
+exec "$REAL_KUBECTL" "$@"
